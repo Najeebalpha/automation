@@ -1,4 +1,4 @@
-Automated Test for Automation Practice Website
+Automated Test for Automation Website
 Description
 This repository contains an automated test script written in Python using Selenium WebDriver to test a website (http://automationpractice.pl/index.php). The script performs several test scenarios, including user login, navigation to the home page, and navigating to the best sellers page. The test assertions verify that the expected page titles are displayed after each action.
 
