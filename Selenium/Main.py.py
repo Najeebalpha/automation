@@ -6,116 +6,64 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# driver = webdriver.Chrome()
-driver = webdriver.Chrome(ChromeDriverManager().install())
-driver.maximize_window()
+class TestAutomationPractice:
+    def __init__(self):
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+        self.driver.maximize_window()
+        self.wait = WebDriverWait(self.driver, 20)
 
-driver.get("http://automationpractice.pl/index.php")
+    def open_website(self):
+        self.driver.get("http://automationpractice.pl/index.php")
 
-driver.implicitly_wait(20)
+    def sign_in(self, username, password):
+        signin_button = self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Sign in")))
+        signin_button.click()
 
-# Click the sign in button
-signin_button = driver.find_element(By.LINK_TEXT, "Sign in")
-signin_button.click()
+        username_field = self.wait.until(EC.visibility_of_element_located((By.ID, "email")))
+        username_field.send_keys(username)
 
+        password_field = self.driver.find_element(By.ID, "passwd")
+        password_field.send_keys(password)
+        password_field.send_keys(Keys.RETURN)
 
+    def go_to_home(self):
+        home_link = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="header_logo"]/a')))
+        home_link.click()
 
-username = driver.find_element(By.ID, "email")
-username.send_keys("Najib@yopmail.com")
-password = driver.find_element(By.ID, "passwd")
-password.send_keys("EOi8bdHZ")
-password.send_keys(Keys.RETURN)
+    def go_to_best_seller(self):
+        best_seller_tab = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="home-page-tabs"]/li[2]/a')))
+        best_seller_tab.click()
 
-driver.implicitly_wait(20)
+    def test_sign_in_and_navigation(self):
+        try:
+            self.open_website()
 
+            username = "Najib@yopmail.com"
+            password = "EOi8bdHZ"
+            self.sign_in(username, password)
 
-Home = driver.find_element(By.XPATH, '//*[@id="header_logo"]/a/img')
-Home.click()
+            # Assert the title after logging in
+            assert "My Shop" in self.driver.title, "Title after logging in is not 'My Shop'."
+            print("Title after logging in is 'My Shop'. Assertion passed.")
 
-# loading landing page
-title = "My Store"
-WebDriverWait(driver, 10).until(EC.title_contains(title))
+            self.go_to_home()
+            assert "My Shop" in self.driver.title, "Home page title mismatch."
+            print("Home page title is 'My Shop'. Assertion passed.")
 
-best_seller = driver.find_element(By.XPATH, '//*[@id="home-page-tabs"]/li[2]/a')
-best_seller.click()
+            self.go_to_best_seller()
+            assert "My Shop" in self.driver.title, "Best Sellers page title mismatch."
+            print("Best Sellers page title is 'My Shop'. Assertion passed.")
 
+            # Add more test steps and assertions as needed for other scenarios.
 
-# Collect product information
-product1_name = driver.find_element(By.CSS_SELECTOR, ".product-container h5 a").text
-product1_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[1]/div/div[2]/div[1]/span').text
+            print("All assertions completed successfully.")
+        except AssertionError as e:
+            print(f"Assertion failed: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+        finally:
+            self.driver.quit()
 
-product2_name = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[2]/div/div[2]/h5/a').text
-product2_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[2]/div/div[2]/div[1]/span').text
-
-product3_name = driver.find_element(By.XPATH,  '//*[@id="blockbestsellers"]/li[3]/div/div[2]/h5/a').text
-product3_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[3]/div/div[2]/div[1]/span').text
-
-product4_name = driver.find_element(By.XPATH,  '//*[@id="blockbestsellers"]/li[4]/div/div[2]/h5/a').text
-product4_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[4]/div/div[2]/div[1]/span').text
-
-product5_name = driver.find_element(By.XPATH,  '//*[@id="blockbestsellers"]/li[5]/div/div[2]/h5/a').text
-product5_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[5]/div/div[2]/div[1]/span[1]').text
-
-product6_name = driver.find_element(By.XPATH,  '//*[@id="blockbestsellers"]/li[6]/div/div[2]/h5/a').text
-product6_price = driver.find_element(By.XPATH, '//*[@id="blockbestsellers"]/li[6]/div/div[2]/div[1]/span[1]').text
-
-# Create a list of products as tuples
-products = [(product1_name, product1_price),
-            (product2_name, product2_price),
-            (product3_name, product3_price),
-            (product4_name, product4_price),
-            (product5_name, product5_price),
-            (product6_name, product6_price)]
-
-# Sort the list of products by price
-sorted_products = sorted(products, key=lambda x: float(x[1].strip("$")))
-
-# Print the sorted list of products
-for product in sorted_products:
-    print(f"Product Name: {product[0]}")
-    print(f"Product Price: {product[1]}")
-    print()
-
-
-scroll = driver.find_element(By.XPATH, '//*[@id="header_logo"]/a')
-driver.execute_script("arguments[0].scrollIntoView(true);", scroll)
-
-
-# driver.find_element(By.LINK_TEXT, "Women").click
-driver.find_element(By.XPATH, '//*[@id="block_top_menu"]/ul/li[1]').click()
-driver.find_element(By.XPATH, '//*[@id="categories_block_left"]/div/ul/li[2]/a').click()
-driver.find_element(By.XPATH, '//*[@id="categories_block_left"]/div/ul/li[2]/a').click()
-driver.find_element(By.ID, "layered_id_attribute_group_2").click()
-driver.find_element(By.ID, "layered_id_attribute_group_24").click()
-driver.find_element(By.XPATH, "//div[@id='layered_price_slider']/a[2]").click()
-driver.find_element(By.XPATH, "//div[@id='center_column']/ul/li/div/div[2]/div[2]/a[2]/span").click()
-driver.find_element(By.ID, "quantity_wanted").click()
-driver.find_element(By.ID, "quantity_wanted").clear()
-driver.find_element(By.ID, "quantity_wanted").send_keys("3")
-driver.find_element(By.ID, "group_1").click()
-driver.find_element(By.ID, "group_1").select_by_visible_text("M")
-driver.find_element(By.XPATH, "//p[@id='add_to_cart']/button/span").click()
-      
-      
-wait = WebDriverWait(driver, 10)
-cart_page_loaded = wait.until(EC.presence_of_element_located((By.ID, "cart_title")))
-
-# Getting the product details from the cart
-product_name = driver.find_element(By.ID, "layer_cart_product_title").text
-product_size_color = driver.find_element(By.ID, "layer_cart_product_attributes").text
-product_quantity = driver.find_element(By.ID, "layer_cart_product_quantity").text
-product_price = driver.find_element(By.ID, "layer_cart_product_price").text
-
-
-# total cost and shipping cost from the cart
-total_cost = driver.find_element(By.CSS_SELECTOR, ".ajax_block_products_total").text
-shipping_cost = driver.find_element(By.CSS_SELECTOR, ".ajax_cart_shipping_cost").text
-Final_cost = driver.find_element(By.CSS_SELECTOR, ".ajax_block_cart_total").text
-
-
-print("Product Name: {product_name}, Product Size and Color: {product_size_color}, Product Quantity: {product_quantity}, Product Price: {product_price}, Total Products Cost: {total_cost}, Shipping Cost: {shipping_cost}, Final Total Cost: {Final_cost}")
-
-
-
-
-driver.quit()
+if __name__ == "__main__":
+    test = TestAutomationPractice()
+    test.test_sign_in_and_navigation()
