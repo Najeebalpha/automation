@@ -42,7 +42,6 @@ class TestAutomationPractice:
             password = "EOi8bdHZ"
             self.sign_in(username, password)
 
-            # Assert the title after logging in
             assert "My Shop" in self.driver.title, "Title after logging in is not 'My Shop'."
             print("Title after logging in is 'My Shop'. Assertion passed.")
 
@@ -54,7 +53,6 @@ class TestAutomationPractice:
             assert "My Shop" in self.driver.title, "Best Sellers page title mismatch."
             print("Best Sellers page title is 'My Shop'. Assertion passed.")
 
-            # Add more test steps and assertions as needed for other scenarios.
 
             print("All assertions completed successfully.")
         except AssertionError as e:
