@@ -1,37 +1,43 @@
-Automated Test for Automation Website
-Description
-This repository contains an automated test script written in Python using Selenium WebDriver to test a website (http://automationpractice.pl/index.php). The script performs several test scenarios, including user login, navigation to the home page, and navigating to the best sellers page. The test assertions verify that the expected page titles are displayed after each action.
+Automated Sign-Up Process Using Selenium
 
-Prerequisites
-To run the automated test, you need the following software installed on your system:
+This Python script demonstrates an automated sign-up process for a website using the Selenium framework. Selenium is a popular tool for automating web browser interactions, and this script specifically uses the Chrome WebDriver. The script interacts with web elements, navigates pages, and fills out a registration form on a given website.
 
-Python (3.6 or later)
-Chrome Web Browser
-ChromeDriver (automatically installed using webdriver_manager)
+Requirements
+
+1. Python: Make sure you have Python installed on your system. The script is written in Python and requires Python 3.x to run.
+2. Chrome WebDriver: The script uses the Chrome WebDriver for browser automation. The WebDriver will be automatically managed and installed using the `webdriver_manager.chrome` package.
+3. Selenium: Install the Selenium library using the following command:
+   ```
+   pip install selenium
+   ```
+
+Usage
+
+1. Clone or download this repository to your local machine.
+
+2. Navigate to the project directory using the command line.
+
+3. Run the script:
+   ```
+   python script_name.py
+   ```
+   Replace `script_name.py` with the actual name of the script file.
+
+4. The script will open a Chrome browser window, navigate to the sign-up page, fill out the registration form, and submit it. You'll see output indicating whether the registration was successful or if an error occurred during the process.
+
+Script Overview
+
+The script defines a class `SignUpPage`, which encapsulates the interactions with the sign-up page's elements. The main actions performed by the script include:
+
+1. Initializing the Chrome WebDriver and maximizing the browser window.
+2. Creating an instance of the `SignUpPage` class to manage interactions with the sign-up page.
+3. Navigating to the specified sign-up page URL.
+4. Clicking the "Sign Up" button.
+5. Filling out the registration form fields with test data.
+6. Selecting a country and providing a phone number.
+7. Agreeing to terms and conditions.
+8. Submitting the registration form.
+9. Handling exceptions and printing appropriate messages.
 
 
-Installation
-Clone the repository to your local machine:
-git clone https://github.com/yourusername/automation_practice_test.git
-
-Navigate to the project directory:
-cd automation_practice_test
-
-Set up a virtual environment (optional but recommended):
-python -m venv venv
-source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-
-
-Install the required Python packages:
-pip install -r requirements.txt
-Running the Test
-
-
-To execute the automated test, run the following command from the project directory:
-python test_automation_practice.py
-
-The script will open a Chrome browser window and perform the test scenarios step by step. It will then print the results of each assertion, indicating whether the tests passed or failed.
-
-Test Results
-The test results will be displayed in the console output. Each assertion will be marked as "Assertion passed" if it succeeded or "Assertion failed" if it did not meet the expected condition. If any errors occur during the test execution, relevant error messages will be displayed, helping you identify potential issues.
 
